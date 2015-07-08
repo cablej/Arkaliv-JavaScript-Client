@@ -1,0 +1,66 @@
+body {
+	padding:15;
+	background-color: white;
+	z-index: 1;
+	min-height: 100%;
+}
+
+.title {
+font-size: 24;
+font-weight: normal;
+color: blue;
+outline: none;
+margin-right: .4em;
+padding: 0px;
+overflow: hidden;
+}
+
+.tagline {
+	font-size:12px;
+}
+
+.buttons {
+	font-size:12px;
+	color: #888 !important;
+	font-weight: bold;
+	padding: 0 0px;
+}
+
+.flat-list {
+list-style-type: none;
+display: inline;
+white-space: nowrap;
+}
+
+.titleSections .buttons li {
+	display: inline-block;
+	border: none;
+	padding-right: 4px;
+	line-height: 1.6em;
+}
+
+li {
+display: list-item;
+text-align: -webkit-match-parent;
+}
+
+.comment li {
+	margin-top: 0px;
+	display: inline;
+	margin-left: 5px;
+}
+
+ul {
+display: block;
+list-style-type: disc;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+-webkit-padding-start: 40px;
+list-style:none;
+}
+
+.comment, .link {
+	margin-bottom: 15px;
+}
