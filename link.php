@@ -1,7 +1,7 @@
 <?php echo file_get_contents("template_before.html") ?>
 <head>
 <script>
-$.post( "../request.php", {action : "GetLink", id : getParameterByName("id")}, function( data ) {
+$.post(REQUEST_URL, {action : "GetLink", id : getParameterByName("id")}, function( data ) {
 	var json = JSON.parse(data)
 	
 	var link = json["link"]
@@ -15,6 +15,10 @@ $.post( "../request.php", {action : "GetLink", id : getParameterByName("id")}, f
 		
 		$("#comments").append(getCommentHTML(comment))
 	}
+});
+
+$( document ).ready(function() {
+	initializePage()
 });
 </script>
 

@@ -1,7 +1,7 @@
 <?php echo file_get_contents("template_before.html") ?>
 <head>
 <script>
-$.post( "../request.php", {action : "GetUser", user : getParameterByName("user"), type : "both", sort : "new"}, function( data ) {
+$.post(REQUEST_URL, {action : "GetUser", user : getParameterByName("user"), type : "both", sort : "new"}, function( data ) {
 	var json = JSON.parse(data)
 	console.log(json)
 	for(link_index in json["links"]) {
@@ -12,7 +12,8 @@ $.post( "../request.php", {action : "GetUser", user : getParameterByName("user")
 });
 
 $( document ).ready(function() {
-	$("#username").text(getParameterByName("user"))
+	$("#username-header").text(getParameterByName("user"))
+	initializePage()
 });
 
 </script>
@@ -20,7 +21,7 @@ $( document ).ready(function() {
 </head>
 <body>
 <?php echo file_get_contents("template_body.html") ?>
-<h1 id="username">Arkaliv</h1>
+<h1 id="username-header">Arkaliv</h1>
 <div id="links">
 </div>
 </body>

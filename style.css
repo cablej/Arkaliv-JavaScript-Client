@@ -1,8 +1,13 @@
 body {
-	padding:15;
 	background-color: white;
 	z-index: 1;
 	min-height: 100%;
+	margin:0;
+	padding:0;
+}
+
+#content {
+	padding:15px;
 }
 
 .title {
@@ -44,7 +49,7 @@ display: list-item;
 text-align: -webkit-match-parent;
 }
 
-.comment li {
+.comment li, .link li {
 	margin-top: 0px;
 	display: inline;
 	margin-left: 5px;
@@ -63,4 +68,79 @@ list-style:none;
 
 .comment, .link {
 	margin-bottom: 15px;
+}
+
+.comment-textarea {
+	width:300px;
+	height:100px;
+}
+
+.comment {
+	border-left: 1px solid rgba(91, 113, 175, 0.3);
+	border-top: 1px solid rgba(91, 113, 175, 0.3);
+	border-bottom: 1px solid rgba(91, 113, 175, 0.3);
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding:3px;
+	/* 5B71AF */
+	/* 91 113 175 */
+}
+
+.side {
+	float:right;
+	padding:5px;
+}
+
+.side div {
+}
+
+#login, #submit, #logout {
+	border:1px solid rgba(91, 113, 175, 0.3);
+	border-radius:5px;
+	width:150px;
+	padding:10px;
+	margin-bottom:15px;
+}
+
+#upload-link {
+	float:left;
+}
+
+#signup, #signin {
+	border:1px solid rgba(91, 113, 175, 0.3);
+	border-radius:5px;
+	padding:10px;
+	width:185px;
+	display: inline-block;
+	float:left;
+}
+
+#signup {
+	margin-right: 50px;
+}
+
+#header {
+border-bottom: 1px solid #5f99cf;
+position: relative;
+/*background-color: #cee3f8;*/
+z-index: 99;
+margin:0px;
+padding-left:15px;
+}
+
+#header-right {
+	min-height: 22px;
+	position: absolute;
+	top: auto;
+	bottom: 0;
+	right:20;
+	/*padding-right: 100px;*/
+	height: 100%;
+	font-size: 15px;
+	border-radius: 4px 0;
+	display: inline-block;
+	/*border-right: 1px solid #cee3f8;*/
+	cursor: pointer;
+	text-align: right;
+	line-height: 24px;
 }
