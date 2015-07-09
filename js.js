@@ -1,4 +1,5 @@
 var REQUEST_URL = "../request.php"
+var converter = new Markdown.Converter();
 
 /*
 
@@ -120,7 +121,8 @@ function getLinkHTML(link) {
 }
 
 function getCommentHTML(comment) {
-	var div = "<div class='comment' style='margin-left:" + comment["level"] * 40 + "px;'><div class='tagline'><a href='user.php?user=" + comment["author"] +"'>" + comment["author"] + "</a> <span>" + timeSince(dateFromTimestamp(comment["date"])) + "</span></div><div class='comment-text'><p>" + comment["text"] +"</p></div><ul class='flat-list buttons'><li><a href='#'>permalink</a></li><li><a style='cursor:pointer' id='" + comment["id"] +"' onclick=\x22appendReply('" + comment["parent"] +"', '" + comment["id"] +"', '" + comment["id"] +"')\x22>reply</a></li></ul></div>";
+
+	var div = "<div class='comment' style='margin-left:" + comment["level"] * 40 + "px;'><div class='tagline'><a href='user.php?user=" + comment["author"] +"'>" + comment["author"] + "</a> <span>" + timeSince(dateFromTimestamp(comment["date"])) + "</span></div><div class='comment-text'><p>" + converter.makeHtml(comment["text"]) +"</p></div><ul class='flat-list buttons'><li><a href='#'>permalink</a></li><li><a style='cursor:pointer' id='" + comment["id"] +"' onclick=\x22appendReply('" + comment["parent"] +"', '" + comment["id"] +"', '" + comment["id"] +"')\x22>reply</a></li></ul></div>";
 
 	return div;
 }
@@ -130,7 +132,8 @@ function appendReply(parent, parentComment, reply_id) {
 		$("#" + reply_id + "-textarea").focus()
 		return;
 	}
-	$("#" + reply_id).after("<div id='" + reply_id + "-div'><br><textarea class='comment-textarea' id='" + reply_id + "-textarea'></textarea><br><br><input type='submit' value='Save' onclick=\x22reply('" + parent + "', '" + parentComment + "', $('#" + reply_id + "-textarea').val())\x22></input> <input type='submit' value='Cancel' onclick=\x22$('#" + reply_id + "-div').remove()\x22></input><p id='save-comment-error'></p></div>");
+	$("#" + reply_id).after("<div id='" + reply_id + "-div'><br><textarea class='comment-textarea' data-provide='markdown' id='" + reply_id + "-textarea'></textarea><br><br><input type='submit' value='Save' onclick=\x22reply('" + parent + "', '" + parentComment + "', $('#" + reply_id + "-textarea').val())\x22></input> <input type='submit' value='Cancel' onclick=\x22$('#" + reply_id + "-div').remove()\x22></input><p id='save-comment-error'></p></div>");
+	$("#" + reply_id + "-textarea").focus()
 }
 
 /*
