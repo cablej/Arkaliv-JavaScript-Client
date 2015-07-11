@@ -91,15 +91,17 @@ list-style:none;
 	padding:5px;
 }
 
-.side div {
-}
-
-#login, #submit, #logout {
+.side > div {
 	border:1px solid rgba(91, 113, 175, 0.3);
 	border-radius:5px;
 	width:150px;
+	height: 50px;
 	padding:10px;
 	margin-bottom:15px;
+	vertical-align:middle;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 25px;
 }
 
 #upload-link {

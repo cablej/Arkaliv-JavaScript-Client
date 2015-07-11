@@ -54,19 +54,22 @@ function createAccount(usernameEntered, passwordEntered, confirmPasswordEntered)
 	});
 }
 
-function uploadLink(title, url) {
+function uploadLink(title, url, bloggerName) {
 	var user_key = getCookie("key")
 	if(user_key == "") {
 		$("#upload-link-error").text("Please log in.")
 		return
 	}
-	$.post(REQUEST_URL, {action : "UploadLink", key: user_key, title : title, url: url}, function( data ) {
+	
+	bloggerName = bloggerName == undefined ? "" : bloggerName
+	
+	$.post(REQUEST_URL, {action : "UploadLink", key: user_key, title : title, url: url, bloggerName: bloggerName}, function( data ) {
 		var link = JSON.parse(data)
 	
 		console.log(link)
 	
 		if(link.hasOwnProperty('error')) {
-			$("#upload-link-error").text(json["error"])
+			$("#upload-link-error").text(link["error"])
 			return
 		}
 		
@@ -114,8 +117,12 @@ function getLinkHTML(link) {
 	if(url.indexOf("http://") != 0 && url.indexOf("https://") != 0) {
 		url = "http://" + url;
 	}
+	
+	var commentsPlural = link["numComments"] == 1 ? "" : "s"
 
-	var div = "<div class='link'><div class='titleSection'><p class='title'><a href='" + url + "'>" + link["title"] + "</a></p><p class='tagline'>Submitted " + timeSince(dateFromTimestamp(link["date"])) +" by <a href='user.php?user=" + link["author"] +"'>" + link["author"] + "</a></p><ul class='flat-list buttons'><li><a href='link.php?id=" + link["id"] + "'>" + link["numComments"] + " comments</a></li><li><a style='cursor:pointer' id='" + link["id"] + "' onclick=\x22appendReply('" + link["id"] + "', '', '" + link["id"] + "')\x22>reply</a></li></ul></div></div>";
+	//<img src='images/up-arrow.png' />
+
+	var div = "<div class='link'><div id='vote-section'></div><div class='titleSection'><p class='title'><a href='" + url + "'>" + link["title"] + "</a></p><p class='tagline'>Submitted " + timeSince(dateFromTimestamp(link["date"])) +" by <a href='user.php?user=" + link["author"] +"'>" + link["author"] + "</a></p><ul class='flat-list buttons'><li><a href='link.php?id=" + link["id"] + "'>" + link["numComments"] + " comment" + commentsPlural +"</a></li><li><a style='cursor:pointer' id='" + link["id"] + "' onclick=\x22appendReply('" + link["id"] + "', '', '" + link["id"] + "')\x22>reply</a></li></ul></div></div>";
 
 	return div;
 }
@@ -123,6 +130,12 @@ function getLinkHTML(link) {
 function getCommentHTML(comment) {
 
 	var div = "<div class='comment' style='margin-left:" + comment["level"] * 40 + "px;'><div class='tagline'><a href='user.php?user=" + comment["author"] +"'>" + comment["author"] + "</a> <span>" + timeSince(dateFromTimestamp(comment["date"])) + "</span></div><div class='comment-text'><p>" + converter.makeHtml(comment["text"]) +"</p></div><ul class='flat-list buttons'><li><a href='#'>permalink</a></li><li><a style='cursor:pointer' id='" + comment["id"] +"' onclick=\x22appendReply('" + comment["parent"] +"', '" + comment["id"] +"', '" + comment["id"] +"')\x22>reply</a></li></ul></div>";
+
+	return div;
+}
+
+function getBloggerHTML(blogger) {
+	var div = "<div class='blogger'><div class='titleSection'><p class='title'><a href='displayBlogger.php?name=" + blogger["bloggerName"] + "'>" + blogger["bloggerName"] + "</a></p><p class='tagline'>" + blogger["numPosts"] + " posts. Last post " + timeSince(dateFromTimestamp(blogger["mostRecentDate"])) +"</p></div></div>";
 
 	return div;
 }
