@@ -16,6 +16,10 @@ function initializePage() {
 	}
 }
 
+function pageLoaded() {
+	MathJax.Hub.Typeset();
+}
+
 /*
 
 HTTP POST requests to REQUEST_URL
@@ -54,7 +58,7 @@ function createAccount(usernameEntered, passwordEntered, confirmPasswordEntered)
 	});
 }
 
-function uploadLink(title, url, bloggerName) {
+function uploadPost(title, url, text, bloggerName) {
 	var user_key = getCookie("key")
 	if(user_key == "") {
 		$("#upload-link-error").text("Please log in.")
@@ -63,7 +67,7 @@ function uploadLink(title, url, bloggerName) {
 	
 	bloggerName = bloggerName == undefined ? "" : bloggerName
 	
-	$.post(REQUEST_URL, {action : "UploadLink", key: user_key, title : title, url: url, bloggerName: bloggerName}, function( data ) {
+	$.post(REQUEST_URL, {action : "UploadPost", key: user_key, title : title, url: url, text : text, bloggerName: bloggerName}, function( data ) {
 		var link = JSON.parse(data)
 	
 		console.log(link)
@@ -105,13 +109,17 @@ function logout() {
 	window.location = "index.php"
 }
 
+function vote(id, type) {
+$("#" + id + "-" + type).fadeTo( 0, 1);
+}
+
 /*
 
 HTML templates for given types, such as links and comments
 
 */
 
-function getLinkHTML(link) {
+function getLinkHTML(link, expanded) {
 	var url = link["url"]
 
 	if(url.indexOf("http://") != 0 && url.indexOf("https://") != 0) {
@@ -119,10 +127,17 @@ function getLinkHTML(link) {
 	}
 	
 	var commentsPlural = link["numComments"] == 1 ? "" : "s"
+	
+	var selfText = ""
+	
+	if(link["isSelf"] == 1) {
+		url = "link.php?id=" + link["id"]
+		if(expanded) {
+			selfText = "<div class='link-text'><p>" + converter.makeHtml(link["selfText"]) +"</p></div>"
+		}
+	}
 
-	//<img src='images/up-arrow.png' />
-
-	var div = "<div class='link'><div id='vote-section'></div><div class='titleSection'><p class='title'><a href='" + url + "'>" + link["title"] + "</a></p><p class='tagline'>Submitted " + timeSince(dateFromTimestamp(link["date"])) +" by <a href='user.php?user=" + link["author"] +"'>" + link["author"] + "</a></p><ul class='flat-list buttons'><li><a href='link.php?id=" + link["id"] + "'>" + link["numComments"] + " comment" + commentsPlural +"</a></li><li><a style='cursor:pointer' id='" + link["id"] + "' onclick=\x22appendReply('" + link["id"] + "', '', '" + link["id"] + "')\x22>reply</a></li></ul></div></div>";
+	var div = "<div class='link'><div id='vote-section'><img class='vote-arrow upvote-arrow' id='" + link["id"] + "-upvote' onclick='vote(\x22" + link["id"] + "\x22, \x22upvote\x22)' src='images/up-arrow.png' /><br><img class='vote-arrow downvote-arrow' id='" + link["id"] + "-downvote' onclick='vote(\x22" + link["id"] + "\x22, \x22downvote\x22)' src='images/up-arrow.png' /></div><div class='titleSection'><p class='title'><a href='" + url + "'>" + link["title"] + "</a></p><p class='tagline'>Submitted " + timeSince(dateFromTimestamp(link["date"])) +" by <a href='user.php?user=" + link["author"] +"'>" + link["author"] + "</a></p>" + selfText +"<ul class='flat-list buttons'><li><a href='link.php?id=" + link["id"] + "'>" + link["numComments"] + " comment" + commentsPlural +"</a></li><li><a style='cursor:pointer' id='" + link["id"] + "' onclick=\x22appendReply('" + link["id"] + "', '', '" + link["id"] + "')\x22>reply</a></li></ul></div></div>";
 
 	return div;
 }

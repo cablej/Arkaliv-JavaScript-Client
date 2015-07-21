@@ -10,6 +10,8 @@ $.post(REQUEST_URL, {action : "GetBlogger", bloggerName : getParameterByName("na
 		
 		$("#links").append(getLinkHTML(link))
 	}
+	
+	pageLoaded()
 });
 
 $( document ).ready(function() {

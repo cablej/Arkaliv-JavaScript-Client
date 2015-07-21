@@ -29,10 +29,10 @@ $( document ).ready(function() {
 
 <div id="upload-link">
 <center>
-<input id="link-title-field" placeholder="Title"></input><br><br>
-<input id="link-url-field" placeholder="Url"></input><br><br>
+<input id="post-title-field" placeholder="Title"></input><br><br>
+<textarea class="self-text-field" placeholder="Text"></textarea><br><br>
 Is blog post: <input id="is-blog-checkbox" type="checkbox"></input><br><br>
-<input type="submit" value="Submit link" onclick="uploadPost($('#link-title-field').val(), $('#link-url-field').val(), '', $('#blogger-name-field').val())"></input>
+<input type="submit" value="Submit post" onclick="uploadPost($('#post-title-field').val(), '', $('.self-text-field').val(), $('#blogger-name-field').val())"></input>
 <p id="upload-link-error"></p>
 </center>
 </div>

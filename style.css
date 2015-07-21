@@ -20,6 +20,11 @@ padding: 0px;
 overflow: hidden;
 }
 
+#vote-section {
+float: left;
+margin-right: 5px;
+}
+
 .tagline {
 	font-size:12px;
 }
@@ -44,18 +49,18 @@ white-space: nowrap;
 	line-height: 1.6em;
 }
 
-li {
+.flat-list li {
 display: list-item;
 text-align: -webkit-match-parent;
 }
 
-.comment li, .link li {
+.flat-list li {
 	margin-top: 0px;
 	display: inline;
 	margin-left: 5px;
 }
 
-ul {
+.flat-list ul {
 display: block;
 list-style-type: disc;
 -webkit-margin-before: 1em;
@@ -73,6 +78,11 @@ list-style:none;
 .comment-textarea {
 	width:300px;
 	height:100px;
+}
+
+.self-text-field {
+	width:300px;
+	height:150px;
 }
 
 .comment {
@@ -145,4 +155,26 @@ padding-left:15px;
 	cursor: pointer;
 	text-align: right;
 	line-height: 24px;
+}
+
+.vote-arrow {
+width:20px;
+opacity:.6;
+margin-top:10px;
+}	
+
+.titleSection {
+margin-left:25px;
+}
+
+.downvote-arrow {
+	margin-top:5px;
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: flipv; /*IE*/
+}
+
+.vote-arrow:hover {
+	opacity:.8;
 }

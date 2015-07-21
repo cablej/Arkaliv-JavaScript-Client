@@ -3,6 +3,8 @@
 <script>
 $( document ).ready(function() {
 	initializePage()
+	
+	pageLoaded()
 });
 </script>
 

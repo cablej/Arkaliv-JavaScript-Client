@@ -6,7 +6,7 @@ $.post(REQUEST_URL, {action : "GetLink", id : getParameterByName("id")}, functio
 	
 	var link = json["link"]
 	
-	$("#comments").append(getLinkHTML(link))
+	$("#comments").append(getLinkHTML(link, true))
 	
 	
 	for(comment_index in json["comments"]) {
@@ -15,6 +15,8 @@ $.post(REQUEST_URL, {action : "GetLink", id : getParameterByName("id")}, functio
 		
 		$("#comments").append(getCommentHTML(comment))
 	}
+	
+	pageLoaded()
 });
 
 $( document ).ready(function() {

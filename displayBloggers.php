@@ -10,6 +10,8 @@ $.post(REQUEST_URL, {action : "GetBloggers"}, function( data ) {
 		
 		$("#bloggers").append(getBloggerHTML(blogger))
 	}
+	
+	pageLoaded()
 });
 
 $( document ).ready(function() {

@@ -7,8 +7,16 @@ $.post(REQUEST_URL, {action : "GetUser", user : getParameterByName("user"), type
 	for(link_index in json["links"]) {
 		var link = json["links"][link_index]
 		
-		$("#links").append(getLinkHTML(link))
+		$("#links").append(getLinkHTML(link, false))
 	}
+	
+	for(comment_index in json["comments"]) {
+		var comment = json["comments"][comment_index]
+		
+		$("#comments").append(getCommentHTML(comment))
+	}
+	
+	pageLoaded()
 });
 
 $( document ).ready(function() {
@@ -21,8 +29,12 @@ $( document ).ready(function() {
 </head>
 <body>
 <?php echo file_get_contents("template_body.html") ?>
-<h1 id="username-header">Arkaliv</h1>
+<h2 id="username-header">Arkaliv</h1>
+<div id="comments">
+<h3>Comments</h3>
+</div>
 <div id="links">
+<h3>Links</h3>
 </div>
 </body>
 <?php echo file_get_contents("template_after.html") ?>

@@ -3,6 +3,9 @@
 <script>
 $( document ).ready(function() {
 	initializePage()
+	
+	pageLoaded()
+	
 	logout()
 });
 </script>
