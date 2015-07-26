@@ -20,7 +20,7 @@ padding: 0px;
 overflow: hidden;
 }
 
-#vote-section {
+.vote-section {
 float: left;
 margin-right: 5px;
 }

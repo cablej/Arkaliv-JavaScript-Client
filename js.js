@@ -109,8 +109,24 @@ function logout() {
 	window.location = "index.php"
 }
 
-function vote(id, type) {
-$("#" + id + "-" + type).fadeTo( 0, 1);
+function vote(id, voteType, objectType) {
+	var user_key = getCookie("key")
+	if(user_key == "") {
+		alert("Please log in to vote.")
+		return
+	}
+	$.post(REQUEST_URL, {action : "Vote", key: user_key, type : objectType, vote: voteType, id: id}, function( data ) {
+		var link = JSON.parse(data)
+
+		console.log(link)
+
+		if(link.hasOwnProperty('error')) {
+			alert(json["error"])
+			return
+		}
+	
+		location.reload()
+	});
 }
 
 /*
@@ -137,16 +153,34 @@ function getLinkHTML(link, expanded) {
 		}
 	}
 
-	var div = "<div class='link'><div id='vote-section'><img class='vote-arrow upvote-arrow' id='" + link["id"] + "-upvote' onclick='vote(\x22" + link["id"] + "\x22, \x22upvote\x22)' src='images/up-arrow.png' /><br><img class='vote-arrow downvote-arrow' id='" + link["id"] + "-downvote' onclick='vote(\x22" + link["id"] + "\x22, \x22downvote\x22)' src='images/up-arrow.png' /></div><div class='titleSection'><p class='title'><a href='" + url + "'>" + link["title"] + "</a></p><p class='tagline'>Submitted " + timeSince(dateFromTimestamp(link["date"])) +" by <a href='user.php?user=" + link["author"] +"'>" + link["author"] + "</a></p>" + selfText +"<ul class='flat-list buttons'><li><a href='link.php?id=" + link["id"] + "'>" + link["numComments"] + " comment" + commentsPlural +"</a></li><li><a style='cursor:pointer' id='" + link["id"] + "' onclick=\x22appendReply('" + link["id"] + "', '', '" + link["id"] + "')\x22>reply</a></li></ul></div></div>";
+	var div = "<div class='link'>" + getVoteHTML(link, "post") +"<div class='titleSection'><p class='title'><a href='" + url + "'>" + link["title"] + "</a></p><p class='tagline'>Submitted " + timeSince(dateFromTimestamp(link["date"])) +" by <a href='user.php?user=" + link["author"] +"'>" + link["author"] + "</a></p>" + selfText +"<ul class='flat-list buttons'><li><a href='link.php?id=" + link["id"] + "'>" + link["numComments"] + " comment" + commentsPlural +"</a></li><li><a style='cursor:pointer' id='" + link["id"] + "' onclick=\x22appendReply('" + link["id"] + "', '', '" + link["id"] + "')\x22>reply</a></li></ul></div></div>";
 
 	return div;
 }
 
 function getCommentHTML(comment) {
 
-	var div = "<div class='comment' style='margin-left:" + comment["level"] * 40 + "px;'><div class='tagline'><a href='user.php?user=" + comment["author"] +"'>" + comment["author"] + "</a> <span>" + timeSince(dateFromTimestamp(comment["date"])) + "</span></div><div class='comment-text'><p>" + converter.makeHtml(comment["text"]) +"</p></div><ul class='flat-list buttons'><li><a href='#'>permalink</a></li><li><a style='cursor:pointer' id='" + comment["id"] +"' onclick=\x22appendReply('" + comment["parent"] +"', '" + comment["id"] +"', '" + comment["id"] +"')\x22>reply</a></li></ul></div>";
+	var div = "<div class='comment' style='margin-left:" + comment["level"] * 40 + "px;'>" + getVoteHTML(comment, "comment") +"<div class='tagline'><a href='user.php?user=" + comment["author"] +"'>" + comment["author"] + "</a> <span>" + timeSince(dateFromTimestamp(comment["date"])) + "</span></div><div class='comment-text'><p>" + converter.makeHtml(comment["text"]) +"</p></div><ul class='flat-list buttons'><li><a href='#'>permalink</a></li><li><a style='cursor:pointer' id='" + comment["id"] +"' onclick=\x22appendReply('" + comment["parent"] +"', '" + comment["id"] +"', '" + comment["id"] +"')\x22>reply</a></li></ul></div>";
 
 	return div;
+}
+
+function getVoteHTML(object, objectType) {
+
+	var upvoteStyle = ""
+	var downvoteStyle = ""
+	
+	console.log(object);
+	
+	if("voteType" in object) {
+		if(object["voteType"] == "upvote") upvoteStyle = "opacity:1"
+		else if(object["voteType"] == "downvote") downvoteStyle = "opacity:1"
+	}
+	
+	var numPoints = object["numUpvotes"] - object["numDownvotes"]
+
+	var div = "<div class='vote-section'><p>" + numPoints + "</p><img class='vote-arrow upvote-arrow' style='" + upvoteStyle + "' id='" + object["id"] + "-upvote' onclick='vote(\x22" + object["id"] + "\x22, \x22upvote\x22, \x22" + objectType + "\x22)' src='images/up-arrow.png' /><br><img class='vote-arrow downvote-arrow' style='" + downvoteStyle +"' id='" + object["id"] + "-downvote' onclick='vote(\x22" + object["id"] + "\x22, \x22downvote\x22, \x22" + objectType + "\x22)' src='images/up-arrow.png' /></div>"
+	return div
 }
 
 function getBloggerHTML(blogger) {

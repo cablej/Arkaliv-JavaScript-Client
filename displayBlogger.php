@@ -1,7 +1,7 @@
 <?php echo file_get_contents("template_before.html") ?>
 <head>
 <script>
-$.post(REQUEST_URL, {action : "GetBlogger", bloggerName : getParameterByName("name")}, function( data ) {
+$.post(REQUEST_URL, {action : "GetBlogger", bloggerName : getParameterByName("name"), key : getCookie("key")}, function( data ) {
 	var json = JSON.parse(data)
 	
 	for(link_index in json) {

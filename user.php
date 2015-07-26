@@ -1,7 +1,7 @@
 <?php echo file_get_contents("template_before.html") ?>
 <head>
 <script>
-$.post(REQUEST_URL, {action : "GetUser", user : getParameterByName("user"), type : "both", sort : "new"}, function( data ) {
+$.post(REQUEST_URL, {action : "GetUser", user : getParameterByName("user"), type : "both", sort : "new", key : getCookie("key")}, function( data ) {
 	var json = JSON.parse(data)
 	console.log(json)
 	for(link_index in json["links"]) {

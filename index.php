@@ -5,7 +5,7 @@
 page = getParameterByName("page")
 if(page == "") page = 1;
 	
-$.post(REQUEST_URL, {action : "GetLinks", page : page}, function( data ) {
+$.post(REQUEST_URL, {action : "GetLinks", page : page, key : getCookie("key")}, function( data ) {
 	var json = JSON.parse(data)
 	
 	if(json.length == 0) {
